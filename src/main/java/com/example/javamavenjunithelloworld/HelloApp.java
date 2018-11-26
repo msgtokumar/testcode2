@@ -1,7 +1,7 @@
 package com.example.javamavenjunithelloworld;
 
 /**
- * 221A very basic program that demonstrates the use of JUnit tests. The tests include a sample unit test and an
+ * eee221A very basic program that demonstrates the use of JUnit tests. The tests include a sample unit test and an
  * integration test.
  */
 public class HelloApp {
