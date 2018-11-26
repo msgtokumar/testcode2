@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # A Java/Maven/JUnit HelloWorld example
 
 A „Hello World!” sample written in Java using Maven for the build, that showcases a few very simple tests.
@@ -26,3 +27,8 @@ This example follows the following basic conventions:
 | **resides in:** | `src/test/java/*Test.java` | `src/test/java/*IT.java` |
 | **executes in Maven phase:** | test | verify |
 | **handled by Maven plugin:** | [surefire](http://maven.apache.org/surefire/maven-surefire-plugin/) | [failsafe](http://maven.apache.org/surefire/maven-failsafe-plugin/) |
+=======
+# TestCode
+Testcode
+>>>>>>> fea4fe289eee85a9bf863e0f77b4705007320cd7
+# Project
