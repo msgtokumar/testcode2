@@ -1,0 +1,86 @@
+pipeline {
+        environment {
+        DISABLE_AUTO = 'true'
+ }
+ agent any
+ stages {
+  stage("Checkout") {
+ steps {
+  sh 'printenv'
+  sh '/var/tmp/testmake/make'
+  
+    sh '/tmp/test/test2/./test.sh'
+ git url: "https://github.com/msgtokumar/TestCode.git"
+ }
+ }
+ stage("Compile") {
+ steps {
+ sh "mvn clean package"
+ }
+}
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+            }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
+            }
+        }
+stage("Unit test") {
+ steps {
+  sh  "mvn test"
+ sh 'curl -u jenkins:abc123 -T target/java-maven-junit-helloworld-2.0-SNAPSHOT.jar "http://192.168.56.1:8085/artifactory/example-repo-local/a.jar"'
+ }
+}
+ }
+}
+
+/**
+* Notification in slack to give the status of the build
+* @param currentBuildStatus : status of current build
+* @param previousBuildStatus : status of the previous build
+*/
+def notifyBuild(String currentBuildStatus, String previousBuildStatus)
+{
+	echo "NotifyBuild [previousBuildStatus:${previousBuildStatus},currentBuildStatus:${currentBuildStatus}]."
+  
+  	// build status of null means successful
+  	currentBuildStatus = currentBuildStatus ?: 'SUCCESS'
+  	previousBuildStatus = previousBuildStatus ?: 'SUCCESS'
+
+  	// we set back to normal if we are in success and last wasn't
+	if(previousBuildStatus != 'SUCCESS' && currentBuildStatus == 'SUCCESS')
+	{
+		currentBuildStatus = 'Back to normal'
+	}
+
+	//notification text
+	def jobName = java.net.URLDecoder.decode("${env.JOB_NAME}", "UTF-8");
+	def subject = "${jobName} - #${env.BUILD_NUMBER} ${currentBuildStatus}"
+  	def summary = "${subject} (<${env.BUILD_URL}|Open>)"
+
+  	//colors
+  	if (currentBuildStatus == 'STARTED' || currentBuildStatus == 'UNSTABLE') 
+	{
+		//Yellow
+		colorCode = '#FFFF00'
+	} 
+  	else if (currentBuildStatus == 'SUCCESS' || currentBuildStatus == 'Back to normal') 
+	{
+		//Green
+		colorCode = '#00FF00'
+	}
+	else 
+	{
+		//Red
+		colorCode = '#FF0000'
+	}
+
+	// we notify only errors and back to normal
+	if(currentBuildStatus != 'STARTED' && currentBuildStatus != 'SUCCESS')
+	{
+		slackSend (color: colorCode, message: summary)
+	}
+}
