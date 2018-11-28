@@ -49,7 +49,54 @@ public class HelloAppTest {
             // Our custom SecurityManager should have thrown an exception when HelloApp exited.
             // This means this line below cannot be reached. To make sure that our custom SecurityManager
             // works as expected, we fail the test if this line is ever reached:
-            fail("Unreachable.");
+            fail("pipeline {\n" +
+                    "        environment {\n" +
+                    "        DISABLE_AUTO = 'true'\n" +
+                    " }\n" +
+                    " agent any\n" +
+                    " stages {\n" +
+                    "  stage(\"Checkout\") {\n" +
+                    " steps {\n" +
+                    "//def props = readProperties  file: 'target/pipeline.properties'\n" +
+                    "  sh 'printenv'\n" +
+                    "  //sh 'make my-important-task'\n" +
+                    "  \n" +
+                    "  //  sh '/tmp/test/test2/./test.sh'\n" +
+                    " git url: \"https://github.com/msgtokumar/TestCode.git\"\n" +
+                    "\n" +
+                    "//sh \"make build\"\n" +
+                    "  \n" +
+                    " }\n" +
+                    " }\n" +
+                    " stage(\"Compile\") {\n" +
+                    " steps {\n" +
+                    " sh \"mvn clean package\"\n" +
+                    " }\n" +
+                    "}\n" +
+                    "stage ('Build') {\n" +
+                    "            steps {\n" +
+                    "                sh 'mvn -Dmaven.test.failure.ignore=true install' \n" +
+                    "            }\n" +
+                    "        }\n" +
+                    "stage(\"Unit test\") {\n" +
+                    "    \n" +
+                    "    \n" +
+                    " steps {\n" +
+                    "     \n" +
+                    "\n" +
+                    "        // Any maven phase that that triggers the test phase can be used here.\n" +
+                    "    sh  \"mvn test\"         \n" +
+                    " \n" +
+                    "    \n" +
+                    "\n" +
+                    " //sh 'curl -u jenkins:abc123 -T target/java-maven-junit-helloworld-2.0-SNAPSHOT.jar \"http://192.168.56.1:8085/artifactory/example-repo-local/a.jar\"'\n" +
+                    " \n" +
+                    " \n" +
+                    "\n" +
+                    " }\n" +
+                    "}\n" +
+                    " }\n" +
+                    "}\n.");
         } catch (TestExitException e) {
             // Did the program exit with the expected error code?
             assertThat(e.getStatus(), is(HelloApp.EXIT_STATUS_PARAMETER_NOT_UNDERSTOOD));
