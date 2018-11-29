@@ -32,13 +32,17 @@ public class HelloTest {
         assertThat(os.toString(), is(equalTo(String.format("%s%s", Hello.HELLO, System.lineSeparator()))));
     }
 
+
+
+
+
     @Test
     public void testSayHelloAFewTimes() {
         OutputStream os = new ByteArrayOutputStream();
         PrintStream stream = new PrintStream(os, true);
 
         Hello hi = new Hello();
-        hi.setTimes(2);
+        hi.setTimes(3);
         hi.sayHello(stream);
 
         // Does it say "Hello!" three times?
