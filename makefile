@@ -19,4 +19,4 @@ test:
 
 clean:
 	@echo "Clean starts."
-	mvn clean package
+	mvn clean 
