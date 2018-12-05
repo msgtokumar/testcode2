@@ -1,22 +1,23 @@
-GIT_REPO := https://github.com/msgtokumar/TestCode.git
+GIT_REPO := https://github.com/DuoDuoMelb/java-maven-junit-helloworld.git
 DIR := "dev"
 OS := $(shell uname)
 
 build:
 	#./scripts/my-important-task.sh my-parameter
-	@echo build..started
-	mvn build
+	@echo    build..started
+	mvn    clean    verify   compile
 
-install:
+package:
 	#./scripts/my-important-task.sh my-parameter
-	@echo install${GIT_REPO}
-	mvn install
+	@echo    Package${GIT_REPO}
+	mvn  package
 
 test:
 	#./scripts/my-important-task.sh my-parameter
-	@echo delete${GIT_REPO}
-	mvn test
+	@echo    delete${GIT_REPO}
+	mvn  test
 
 clean:
-	@echo "Clean starts."
-	mvn clean 
+	@echo    "Clean starts."
+	mvn  clean
+
