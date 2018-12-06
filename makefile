@@ -1,5 +1,5 @@
 GIT_REPO := https://github.com/DuoDuoMelb/java-maven-junit-helloworld.git
-DIR := "dev"
+DIR := "dev1"
 OS := $(shell uname)
 
 build:
