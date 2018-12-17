@@ -9,8 +9,8 @@ build:
 
 package:
 	#./scripts/my-important-task.sh my-parameter
-	@echo    Package${GIT_REPO}
-	mvn  package
+	@echo    Package${GIT_REPO} ${tagname}
+	mvn  package -D${tagname}
 
 test:
 	#./scripts/my-important-task.sh my-parameter
