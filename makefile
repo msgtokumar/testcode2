@@ -10,7 +10,7 @@ build:
 package:
 	#./scripts/my-important-task.sh my-parameter
 	@echo    Package${GIT_REPO} ${tagname}
-	mvn  package -D${tagname}
+	mvn  package -Djar.finalName=${tagname}
 
 test:
 	#./scripts/my-important-task.sh my-parameter
